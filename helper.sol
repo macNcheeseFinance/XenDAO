@@ -6,7 +6,7 @@ interface IERC20 {
 }
 
 contract GetBalances {
-    address public immutable XEN = 0xca41f293A32d25c2216bC4B30f5b0Ab61b6ed2CB;
+    address public immutable XEN = <XEN>;
 
     function multiCall(address[] calldata _contracts, bytes[] calldata _data) external {
         for(uint256 i=0; i < _contracts.length; i++) {
@@ -77,7 +77,7 @@ contract Implementation {
         assembly {
             let succeeded := call(
                 gas(),
-                0xca41f293A32d25c2216bC4B30f5b0Ab61b6ed2CB,
+                <XEN>,
                 0,
                 add(data, 0x20),
                 mload(data),
