@@ -1,0 +1,13 @@
+10XD per each XEN owned
+
+Proofs:
+https://xendao.org/merkle.zip
+
+
+ETH 0x7b1b1cc17e6819ee7934291c42bcc390d8970ac825ae1ce69169da0639b5e5f9
+
+BSC 0x99c5c4eec93b8626218dd8e25b19abebae002f25d7f86101c357f36eb41dc875
+
+POLY 0xe5b2d8ad5522307551143f3a674bbcc528d6f961773e6c1b939fa193deb2168a
+
+FTM 0xded1a49a49936dfe3cb2e4f1ec002f85933ba3e2e3e5de5d6c5daf7432653c60
