@@ -10,11 +10,10 @@ Fantom: https://ftmscan.com/address/0x0a095b703BcF81abd30b61ba14784C37DC4300DE</
 How to claim manually from the contract?</br>
 1.) Go to https://xendao.org/airdrop.php (You can claim through an automated process as well)</br>
 Click claim manually, enter wallet address and wait for data to load</br>
-2.) Enter wallet address</br>
-3.) Open Contract on block explorer (links are above)</br>
-4.) Click Write Contract</br>
-5.) Connect Your wallet</br>
-6.) In "claim" function copy over the details, click write... Confirm transaction in wallet and XD tokens will be minted to your wallet!</br></br>
+2.) Open Contract on block explorer (links are above)</br>
+3.) Click Write Contract</br>
+4.) Connect Your wallet</br>
+5.) In "claim" function copy over the details, click write... Confirm transaction in wallet and XD tokens will be minted to your wallet!</br></br>
 <img src="https://i.imgur.com/fTKv2ZI.png">
 </br></br></br>
 
