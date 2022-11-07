@@ -3,6 +3,7 @@
 Proofs:
 https://xendao.org/merkle.zip
 
+Merkle Root Hashes:
 
 ETH 0x7b1b1cc17e6819ee7934291c42bcc390d8970ac825ae1ce69169da0639b5e5f9
 
