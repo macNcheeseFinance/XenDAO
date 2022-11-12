@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Xen DAO (XD): Generate Wallets & Claim</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="vendors/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="vendors/css/vendor.bundle.base.css">
+    <!-- endinject -->
+    <!-- Plugin css for this page -->
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <!-- endinject -->
+    <!-- Layout styles -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- End layout styles -->
+    <link rel="shortcut icon" href="images/favicon.ico" />
+	
+	 <script src="js/ethers.js"></script>
+	<!-- <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+   <script type="text/javascript" src="https://unpkg.com/web3@1.6.0/dist/web3.min.js"></script>
+<script type="text/javascript" src="https://unpkg.com/web3modal@1.9.4/dist/index.js"></script>
+<script type="text/javascript" src="https://unpkg.com/@walletconnect/web3-provider@1.6.6/dist/umd/index.min.js"></script>
+<script type="text/javascript" src="js/walletlink.bundle.js"></script>-->
+	<script src="js/network.js"></script>
+<script>
+var provider = new ethers.providers.Web3Provider(window.ethereum, "any");</script>
+  </head>
+  <body>
+  <input id="refId" name="refId" style="display: none" value="">
+    <div class="container-scroller">
+
+      <!-- partial:partials/_navbar.html -->
+      <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+        <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
+          <a class="navbar-brand brand-logo" href="index.html"><strong>Xen DAO</strong> &nbsp&nbsp<img src="images/XD.png" alt="logo" style="max-height: 100%; width: auto;"/></a>
+          <a class="navbar-brand brand-logo-mini" href="index.html"><img src="images/XD.png" alt="logo" style="max-height: 100%; width: auto;"/></a>
+        </div>
+        <div class="navbar-menu-wrapper d-flex align-items-stretch">
+          <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
+            <span class="mdi mdi-menu"></span>
+          </button>
+
+          <ul class="navbar-nav navbar-nav-right">
+            <li class="nav-item nav-profile dropdown">
+              <a class="nav-link dropdown-toggle" id="profileDropdown" href="#" data-bs-toggle="dropdown" aria-expanded="false">
+                <div class="nav-profile-img">
+                  <i class="mdi mdi-access-point-network"></i>
+                  <span class="availability-status online"></span>
+                </div>
+                <div class="nav-profile-text">
+                  <p class="mb-1 text-black">Supported Networks</p>
+                </div>
+              </a>
+              <div class="dropdown-menu navbar-dropdown" aria-labelledby="profileDropdown">
+                <a class="dropdown-item" href="#">
+                  <i class="mdi mdi-server-network "></i> Ethereum</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">
+                  <i class="mdi mdi-server-network "></i> BSC </a>
+				              <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">
+                  <i class="mdi mdi-server-network "></i> Polygon </a>
+				  
+				     <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">
+                  <i class="mdi mdi-server-network "></i> Avalanche C Chain </a>
+				  
+				     <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">
+                  <i class="mdi mdi-server-network "></i> ETH POW </a>
+				  
+				     <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">
+                  <i class="mdi mdi-server-network "></i> Moonbeam </a>
+				  
+				     <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">
+                  <i class="mdi mdi-server-network "></i> Evmos </a>
+           
+			  
+			       <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">
+                  <i class="mdi mdi-server-network "></i> Fantom </a>
+				  		         <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">
+                  <i class="mdi mdi-server-network "></i> DogeChain </a>
+              </div>
+            </li>
+    
+            
+           
+            
+          </ul>
+          <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
+            <span class="mdi mdi-menu"></span>
+          </button>
+        </div>
+      </nav>
+      <!-- partial -->
+      <div class="container-fluid page-body-wrapper">
+        <!-- partial:partials/_sidebar.html -->
+        <nav class="sidebar sidebar-offcanvas" id="sidebar">
+          <ul class="nav">
+            <li class="nav-item nav-profile">
+              <a href="#" class="nav-link">
+                <div class="nav-profile-image">
+                  <img src="images/xen.png" alt="profile">
+                  <span class="login-status online"></span>
+                  <!--change to offline or busy as needed-->
+                </div>
+                <div class="nav-profile-text d-flex flex-column">
+                  <span class="font-weight-bold mb-2">Xen DAO</span>
+                        <span class="text-secondary text-small"><small>Claim Xen, mint XD</small> </span>
+                </div>
+                <i class="mdi mdi-bookmark-check text-success nav-profile-badge"></i>
+              </a>
+            </li>
+   <li class="nav-item">
+              <a class="nav-link" href="airdrop.html">
+                <span class="menu-title">Free Airdrop(XD)</span>
+                <i class="mdi mdi-gift  menu-icon"></i>
+              </a>
+            </li>
+   <li class="nav-item">
+              <a class="nav-link" href="index.html">
+                <span class="menu-title">Batch Minter</span>
+                <i class="mdi mdi-home menu-icon"></i>
+              </a>
+            </li>
+
+            	   <li class="nav-item">
+              <a class="nav-link" href="wallet.html">
+                <span class="menu-title">Wallet Minter</span>
+                <i class="mdi mdi-account-multiple-plus  menu-icon"></i>
+              </a>
+            </li>
+			
+            <li class="nav-item">
+              <a class="nav-link" href="staking.html">
+                <span class="menu-title">Stake & Earn</span>
+                <i class="mdi mdi-star-circle menu-icon"></i>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="referral.html">
+                <span class="menu-title">Referr & Earn</span>
+                <i class="mdi mdi-square-inc-cash menu-icon"></i>
+              </a>
+            </li>
+			
+		
+			
+            <li class="nav-item">
+              <a class="nav-link" href="index.html#TOKENOMICS">
+                <span class="menu-title">Tokenomics</span>
+                <i class="mdi mdi-chart-bar menu-icon"></i>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="index.html#DAOFAQ">
+                <span class="menu-title">FAQ</span>
+                <i class="mdi mdi-table-large menu-icon"></i>
+              </a>
+            </li>
+						 <li class="nav-item">
+              <a class="nav-link" href="https://snapshot.org/#/xen-dao.eth" target="_blank">
+                <span class="menu-title">Governance</span>
+                <i class="mdi mdi-school menu-icon"></i>
+              </a>
+            </li>
+
+            <li class="nav-item sidebar-actions">
+              <span class="nav-link">
+                <div class="border-bottom">
+                  <h6 class="font-weight-normal mb-3">Add To Wallet</h6>
+                </div>
+                <button class="btn btn-block btn-lg btn-gradient-primary mt-4" onclick="addToWallet();">+ Add XEN DAO</button>
+                <div class="mt-4">
+                  <div class="border-bottom">
+                    <p class="text-secondary">Social Media</p>
+                  </div>
+              
+                    <a href="https://t.me/Xen_DAO" target="_blank"><img src="images/telegram.svg" style="max-width: 100%; max-height: 25px"></a> Telegram
+                      <a href="https://twitter.com/xen_dao" target="_blank"><img src="images/twitter.svg"></a>
+          
+                </div>
+              </span>
+            </li>
+          </ul>
+        </nav>
+        <!-- partial -->
+        <div class="main-panel">
+          <div class="content-wrapper">
+<!--
+            <div class="row">
+              <div class="col-md-4 stretch-card grid-margin">
+                <div class="card bg-gradient-danger card-img-holder text-white">
+                  <div class="card-body">
+                    <img src="images/dashboard/circle.svg" class="card-img-absolute" alt="circle-image" />
+                    <h4 class="font-weight-normal mb-3">Wallets Claimed <i class="mdi mdi-chart-line mdi-24px float-right"></i>
+                    </h4>
+                    <h2 class="mb-5">$ 15,0000</h2>
+                    <h6 class="card-text">Increased by 60%</h6>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4 stretch-card grid-margin">
+                <div class="card bg-gradient-info card-img-holder text-white">
+                  <div class="card-body">
+                    <img src="images/dashboard/circle.svg" class="card-img-absolute" alt="circle-image" />
+                    <h4 class="font-weight-normal mb-3">Xen Dao Supply <i class="mdi mdi-bookmark-outline mdi-24px float-right"></i>
+                    </h4>
+                    <h2 class="mb-5">45,6334</h2>
+                    <h6 class="card-text">Decreased by 10%</h6>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4 stretch-card grid-margin">
+                <div class="card bg-gradient-success card-img-holder text-white">
+                  <div class="card-body">
+                    <img src="images/dashboard/circle.svg" class="card-img-absolute" alt="circle-image" />
+                    <h4 class="font-weight-normal mb-3">Fees Accumulated <i class="mdi mdi-diamond mdi-24px float-right"></i>
+                    </h4>
+                    <h2 class="mb-5">95,5741</h2>
+                    <h6 class="card-text">Increased by 5%</h6>
+                  </div>
+                </div>
+              </div>
+            </div>
+            -->
+			
+			
+			
+			
+			
+			
+ 
+            <div class="row">
+			
+			      
+		
+              <div class="col-md-6 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Step 1.) Generate Wallets</h4>
+         
+                 
+   
+                      <div class="form-group">
+                        <label for="exampleInputEmail1">Number of Wallets to Create:</label>
+                        <input class="form-control" id="nrOfWallets" name="nrOfWallets"  placeholder="Number of Wallets to Generate">
+                      </div>
+                      
+		
+					  
+                      <button id="blahBlah" name="blahBlah" onclick="generateWallets();" class="btn btn-gradient-primary mr-2" onclick="claim();">Generate Wallets</button>
+          	<div id="generatedWallets"></div>
+                    
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Step 2.) Send native token("ETH") for gas fees     </h4>
+<div id="displayThis" style="display: none">
+   <label for="exampleInputUsername1">ETH amount to send. This is just an estimate, please verify manually the gas fee required to claim + mint + transfer the token is sufficient. This function will send such amount of ETH to all addresses from your connected wallet.</label>
+						</br>
+					<input type="text" class="form-control" id="ethAmount" placeholder="ETH to send">
+   </br>
+           <button onclick="sendEth();" class="btn btn-primary mr-2" id="sendEthButton"> Send ETH for gas fees </button> </br></br>
+             
+               <div id="txSend" name="txSend"></div>
+             </br></br>
+
+           </br>  
+		   
+		   </div>
+Check and input the recommended gas price  </br>
+Gas Trackers: <a href="https://etherscan.io/gastracker" target="_blank">ETH</a> <a href="https://bscscan.com/gastracker" target="_blank">BSC</a> <a href="https://polygonscan.com/gastracker" target="_blank">Polygon</a> <a href="https://snowtrace.io/gastracker" target="_blank">Avax</a> <a href="https://moonscan.io/gastracker" target="_blank">Moonbeam</a>  </br></br><a href="https://ftmscan.com/gastracker" target="_blank">Fantom</a>  </br></br>
+<input type="text" class="form-control" id="currentGwei" placeholder="Enter Current Gwei"></br><button onclick="calculateGas();" class="btn btn-primary mr-2"> Estimate Custom Gas </button></br></br><button onclick="providerGas();" class="btn btn-primary mr-2" id="autofillBtn"> ...or Autofill </button>
+<div id="gasCalculator"></div>
+
+                      </div>
+          <a name="DAOFAQ"></a>    
+                </div>
+              </div>
+             
+       
+	   <div class="col-md-6 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Step 3.) Claim Rank</h4>
+                   
+				   
+   <label for="exampleInputUsername1">Days before XEN can be minted</label>
+						
+					<input type="text" class="form-control" id="claimDelay" placeholder="Days before mint">
+   </br>
+Delay(seconds) <small>Too many requests in a short period of time could result in getting your IP rate-limited</small>
+<input type="text" class="form-control" id="rpcDelay" placeholder="Delay Between Requests in Seconds" value="2">
+</br>
+Gas Price(gwei)
+<input type="text" class="form-control" id="gasPrice" placeholder="Gas Price (Gwei)">
+</br>
+Gas Limit
+<input type="text" class="form-control" id="gasLimit" placeholder="Gas Limit Per Transaction" value="200000">
+</br>
+
+
+
+
+           <button onclick="claimXen();" class="btn btn-primary mr-2">Claim Rank </button>
+             
+               
+             <div id="addressesClaimed"></div>
+			 
+                      </div>
+        
+                </div>
+              </div>
+			  
+			  <div class="col-md-6 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Step 4.) Claim(mint) XEN   </h4>
+ <div class="alert alert-warning"><strong>Note: </strong> You must wait number of days specificed during claim.</br> XEN must be minted within 7 days after your claim becomes eligible.</div>
+		
+
+   </br>
+<div id="xenMinting">
+           <button onclick="mintXen();" class="btn btn-primary mr-2">Mass Mint XEN to wallet </button>
+             </div>
+               
+             <div id="activeClaims"></div>
+              </div>
+                      </div>
+       
+                </div>
+              
+			  
+			  <div class="col-md-6 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Step 5.) Mass Transfer XEN to single wallet        </h4>
+
+					
+					 <div class="alert alert-info">Once you already have XEN in your multiple wallets, you can transfer XEN from all of your wallets to a single address (to spare on gas fees)</div>
+		
+		<input type="text" class="form-control" id="evmAddress" placeholder="Send to address">
+</br>
+          
+   
+           <button onclick="transferXen();" class="btn btn-primary mr-2" id="transferXenBtn" name="transferXenBtn"> Mass Transfer</button>
+             
+               <div id="xenTransfer"></div>
+			   
+                      </div>
+         
+                </div>
+              </div>
+			  
+			  <div class="col-md-6 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Step 6.) Stake / Sell XEN   </h4>
+  
+  <div class="alert alert-info">Stake XEN on official website or sell it on Uniswap</div>
+		
+   </br>
+           <a href="https://xen.network" target="_blank"><button class="btn btn-primary mr-2"> XEN website</button></a>
+  
+                      </div>
+          
+                </div>
+              </div>
+		
+			<div class="col-md-12 grid-margin stretch-card">
+                    <div class="card">
+                      <div class="card-body">
+                        <h4 class="card-title">What is Wallet Minter</h4>
+                     
+                        <p> Wallet minter is a tool that allows you to generate as many EVM(Ethereum, BSC, polygon,...) compatitible addresses as you wish.
+						XEN contract allows 1 concurrent claim per each wallet address. This allows you to claim XEN from hundreds of wallets at once.</br>
+						</br>Addresses are generated in your browser. They are not stored anywhere.</br>
+						It is &#x1F480;<strong>EXTREMELY IMPORTANT</strong>&#x1F480; that you manually <strong>SAVE</strong> the accounts on your device or else they will be IRREVERSIBLY lost FOREVER.
+						
+						</br></br>
+						  <h4 class="card-title">Earn Xen DAO(XD) token</h4>
+						  You receive XD token for each wallet generated(during mass send).</br>
+						  Xen DAO token(XD) can be staked. All of the protocol fees are distributed to XD stakers.
+						  
+						  </br></br></br>
+						      <h4 class="card-title">How does it work?</h4>
+                     
+                      1.) Wallets are generated in your browser through etherJS </br>
+					 </br> 2.) Tool mass sends native token(ETH/BNB/MATIC/....) to ALL new addresses from your "metamask" wallet</br>
+					 You will receive bonus Xen DAO(XD) tokens minted to your wallet</br><small>(each address needs enough gas to claim + mint + transfer XEN)</small></br>
+					 </br> 3.) Tool loops through all of the wallets and claims XEN</br><small> (it signs the transactions programatically using the generated private key)</small>
+				</br>	</br>	4.) Once your term matures, tool allows you to loop through all wallets and mint the tokens accross all wallets at once</br>
+						</br>5.) Tool allows you to mass send XEN balances from all accounts into a single address
+					</br>	</br>6.) That's it. XEN from all accounts is now collected in your single wallet. You can now sell or stake XEN. 
+						</br></br>
+						</br>
+						  <h4 class="card-title">Is it Safe to use?</h4>
+The tool is safe to use. There is no backdoor, however theoretically any javascript file on the site could log the wallets and send them to the server.
+If you don't trust, you should use <a href="clean.html">CLEAN VERSION</a>, where source code can be viewed and verified. You can even save it as .html and use locally on your device. 
+</br></br>
+						  <h4 class="card-title">Early use warning</h4>
+Please note the software is in beta testing stage. There could be bugs.
+  </p>
+                      </div>
+                    </div>
+                  </div>
+				  
+				  
+              
+              
+            </div>
+          </div>
+          <!-- content-wrapper ends -->
+          <!-- partial:partials/_footer.html -->
+          <footer class="footer">
+            <div class="container-fluid d-flex justify-content-between">
+              <span class="text-muted d-block text-center text-sm-start d-sm-inline-block">Copyright &copy; xenDAO.org 2022</span>
+              
+            </div>
+          </footer>
+          <!-- partial -->
+        </div>
+        <!-- main-panel ends -->
+      </div>
+      <!-- page-body-wrapper ends -->
+    </div>
+    <!-- container-scroller -->
+    <!-- plugins:js -->
+    <script src="vendors/js/vendor.bundle.base.js"></script>
+    <!-- endinject -->
+    <!-- Plugin js for this page -->
+    <script src="vendors/chart.js/Chart.min.js"></script>
+    <script src="js/jquery.cookie.js" type="text/javascript"></script>
+    <!-- End plugin js for this page -->
+    <!-- inject:js -->
+    <script src="js/off-canvas.js"></script>
+    <script src="js/hoverable-collapse.js"></script>
+    <script src="js/misc.js"></script>
+    <!-- endinject -->
+    <!-- Custom js for this page -->
+    <script src="js/dashboard.js"></script>
+    <script src="js/todolist.js"></script>
+    <!-- End custom js for this page -->
+		 <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+   <script type="text/javascript" src="https://unpkg.com/web3@1.6.0/dist/web3.min.js"></script>
+<script type="text/javascript" src="https://unpkg.com/web3modal@1.9.4/dist/index.js"></script>
+<script type="text/javascript" src="https://unpkg.com/@walletconnect/web3-provider@1.6.6/dist/umd/index.min.js"></script>
+<script type="text/javascript" src="js/walletlink.bundle.js"></script>
+
+	<script src="js/wallet.js"></script>
+
+	<script>
+	var haveChecked = false;
+var defaultDelay = 2500;
+var currency
+var xenContract
+
+
+//make so that they choose network
+
+function blockExplorer() {
+if(!haveChecked) {
+        Swal.fire({
+            title: 'Send Through Block Explorer',
+            html: 'You must first Generate Wallets.',
+            focusConfirm: false,
+            confirmButtonText: '<i class="fa fa-thumbs-up"></i> Close'
+        })
+} else {
+	let html2 = document.getElementById("contentz").value
+        const result2 = html2.split(/\r?\n/);
+        //msg that we sending broski
+
+        let thaWallet
+        let wallets = "["
+        for (let i = 0; i < result2.length - 1; i++) {
+            thaWallet = result2[i].split(':')
+			if(i !=0) { wallets+= "," }
+            wallets+= thaWallet[0]
+        }
+		wallets+= "]"
+        navigator.clipboard.writeText(wallets);
+        Swal.fire({
+            title: 'Send Through Block Explorer',
+            html: 'Addresses have been copied to clipboard. You can mass-send manually through Etherscan. Array of addresses in correct format has been copied to clipboard. Go to etherscan, connect wallet, paste the information under "massNative", click write and confirm in wallet!</br></br><a href="https://etherscan.io/address/0x68945a714FAbD1CAC7ab61e2a97a6E322fAe854B#writeContract" target="_blank"><button class="btn btn-primary mr-2">Go to Etherscan</button></a> &nbsp&nbsp <a href="https://bscscan.com/address/0x68945a714FAbD1CAC7ab61e2a97a6E322fAe854B#writeContract" target="_blank"><button class="btn btn-primary mr-2">Go to BSCscan</button></a>',
+            focusConfirm: false,
+            confirmButtonText: '<i class="fa fa-thumbs-up"></i> Close'
+        })
+}
+}
+async function claimXen() {
+	await auth();
+    let html2 = document.getElementById("contentz").value
+    const result2 = html2.split(/\r?\n/);
+    //msg that we sending broski
+    let signer;
+    let thaWallet
+    let doIt
+    let transaction
+    let theDelay = document.getElementById("claimDelay").value
+	await getNetwork()
+	let addresses = []
+
+    for (let i = 0; i < result2.length - 1; i++) {
+        thaWallet = result2[i].split(':')
+		
+       signer = await new ethers.Wallet(thaWallet[1], provider);
+		try {
+        transaction = new ethers.Contract(xenContract, xenABI, signer, { gasPrice: document.getElementById("gasPrice").value, gasLimit: document.getElementById("gasLimit").value});
+        doIt = await transaction.claimRank(theDelay);
+		addresses.push(thaWallet[0])
+		} catch(e) {
+			Swal.fire({
+				title: 'Failure',
+				html: e,
+				icon: 'error',            
+				focusConfirm: false,
+				confirmButtonText: '<i class="fa fa-thumbs-up"></i> Close'
+        })
+}
+        document.getElementById("addressesClaimed").innerHTML += "</br>(" + (i+1) + ") Claimed Using Wallet: " + thaWallet[0]
+        await sleep((document.getElementById("rpcDelay").value) * 1000);
+    }
+	//
+	//get curre nt data, push into, and submit all 
+	let dataToPut
+	console.log("delay is " + theDelay)
+	console.log((getTimestamp()/1000+theDelay*86400))
+	let newData = [addresses, currency]
+	if(localStorage.getItem('mintWallets') === null) {
+		dataToPut = [newData]
+	} else {
+		dataToPut = JSON.parse(localStorage.getItem('mintWallets'))
+		dataToPut.push(newData)
+	}
+	console.log(JSON.stringify(dataToPut))
+	localStorage.setItem('mintWallets', JSON.stringify(dataToPut));
+	
+	displayMints()
+}
+
+function mintXen() {
+	document.getElementById("xenMinting").innerHTML = `Paste your accounts in the area below</br><textarea id="xenMintAddresses" name ="xenMintAddresses" style="width: 100%" placeholder="Enter the accounts generated during claiming"></textarea></br>
+
+<input type="text" class="form-control" id="gasPrice2" placeholder="Gas Price">
+</br>
+
+<input type="text" class="form-control" id="gasLimit2" placeholder="Gas Limit Per Transaction" value="105000">
+</br>
+
+<button onclick="mintXen2();" class="btn btn-primary mr-2">Mint XEN</button>
+</br><div id="xenMinted"></div>`
+}
+
+async function mintXen2() {
+	await auth();
+    let html2 = document.getElementById("xenMintAddresses").value
+    const result2 = html2.split(/\r?\n/);
+    //msg that we sending broski
+    let signer;
+    let thaWallet
+    let doIt
+    let transaction
+	let length;
+	await getNetwork()
+	if(result2[result2.length-1] == "") { length = result2.length - 1} else { length = result2.length }
+    for (let i = 0; i < length; i++) {
+        thaWallet = result2[i].split(':')
+        signer = await new ethers.Wallet(thaWallet[1], provider);
+	try {
+        transaction = new ethers.Contract(xenContract, xenABI, signer, { gasPrice: document.getElementById("gasPrice2").value, gasLimit: document.getElementById("gasLimit2").value});
+        doIt = await transaction.claimMintReward();
+} catch(e) {
+ document.getElementById("xenMinted").innerHTML = '<h1><font color="red">Error: </font>'+e+'</h1>'
+}
+        document.getElementById("xenMinted").innerHTML += "</br>(" + (i+1) + ") Minted Using Wallet: " + thaWallet[0]
+        await sleep(defaultDelay);
+    }
+}
+
+async function transferXen() {
+document.getElementById("transferXenBtn").style = "display: none;"
+	document.getElementById("xenTransfer").innerHTML = `Paste your accounts in the area below</br> <textarea id="xenTransferring" name="xenTransferring" style="width: 100%"></textarea></br>
+
+<input type="text" class="form-control" id="gasPrice3" placeholder="Gas Price">
+</br>
+
+<input type="text" class="form-control" id="gasLimit3" placeholder="Gas Limit Per Transaction" value="55000">
+</br>
+
+<button onclick="transferXen2();" class="btn btn-primary mr-2">Mass Transfer XEN</button>
+</br><div id="xenTransferred"></div>`
+}
+
+async function transferXen2() {
+	await auth();
+    let html2 = document.getElementById("xenTransferring").value
+    const result2 = html2.split(/\r?\n/);
+    //msg that we sending broski
+    let signer;
+    let thaWallet
+    let doIt
+    let transaction
+	let length;
+	await getNetwork()
+	if(result2[result2.length-1] == "") { length = result2.length - 1} else { length = result2.length }
+    for (let i = 0; i < length; i++) {
+        thaWallet = result2[i].split(':')
+        signer = await new ethers.Wallet(thaWallet[1], provider);
+	try {
+        transaction = new ethers.Contract(xenContract, xenABI, signer, { gasPrice: document.getElementById("gasPrice3").value, nonce: 0, gasLimit: document.getElementById("gasLimit3").value, chainId: 941});
+        let intitiatu = new ethers.Contract(xenContract, xenABI, provider);
+		let toSend = await intitiatu.balanceOf(thaWallet[0]);
+		doIt = await transaction.transfer(document.getElementById("evmAddress").value, toSend);
+} catch(e) {
+ document.getElementById("xenTransferred").innerHTML+= '<h1><font color="red">Error: </font>'+e+'</h1>'
+}
+        document.getElementById("xenTransferred").innerHTML+= "</br>(" + (i+1) + ") Transferred Using Wallet: " + thaWallet[0]
+        await sleep(defaultDelay);
+    }
+}
+
+async function generateWallets() {
+    let number = parseInt(document.getElementById("nrOfWallets").value)
+    if (number > 300) {
+        number = 300
+        document.getElementById("nrOfWallets").value = 300
+    }
+    console.log(number);
+
+    document.getElementById("generatedWallets").innerHTML = '</br></br><center>Please await while generating wallets<div class="pixel-loader"></div></center>'
+    await sleep(2000)
+    let wallet
+    let firstWallet
+    let allAccounts = ""
+    for (i = 0; i < number; i++) {
+        wallet = await ethers.Wallet.createRandom()
+        allAccounts += wallet.address + ":" + wallet.privateKey
+        if (i == 0) {
+            firstWallet = wallet.address + ":" + wallet.privateKey
+        }
+        allAccounts += "\r\n"
+    }
+
+    document.getElementById("blahBlah").style.display = "none;"
+    document.getElementById("nrOfWallets").style.display = "none;"
+
+    document.getElementById("generatedWallets").innerHTML = '<br></br><textarea id="contentz" wrap="off" style="width: 100%; height: 400px">' + allAccounts + '</textarea></br></br><button onclick="copy();" class="btn btn-primary mr-2">Copy to Clipboard</button>'
+    haveChecked = true
+    copy()
+}
+
+function copy() {
+    navigator.clipboard.writeText(document.getElementById("contentz").value);
+    Swal.fire({
+        title: 'Copied to clipboard',
+        html: 'Addresses have been copied to clipboard. Please save them locally on your device. </br></br>Download of .txt file with generated accounts has also been prompted(confirm to download or save manually).</br> </br><strong>&#x1F480; &#x1F480; &#x1F480; &#x1F480; &#x1F480;</br><font color="red">If you don\'t save the wallets with their private keys, the accounts and funds will be lost forever.</font></br>&#x1F480; &#x1F480; &#x1F480; &#x1F480; &#x1F480;</strong>',
+        focusConfirm: false,
+        confirmButtonText: '<i class="fa fa-thumbs-up"></i> Close'
+    })
+
+	const timeElapsed = Date.now();
+	const today = new Date(timeElapsed);
+	download("XEN-Wallets-"+today.toISOString()+".txt", document.getElementById("contentz").value)
+}
+
+function download(filename, text) {
+  var element = document.createElement('a');
+  element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+  element.setAttribute('download', filename);
+
+  element.style.display = 'none';
+  document.body.appendChild(element);
+
+  element.click();
+
+  document.body.removeChild(element);
+}
+
+
+
+	</script>
+  </body>
+</html>

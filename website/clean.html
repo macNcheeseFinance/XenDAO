@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>XEN Mass Minting Service
+    </title>
+    <script src="https://cdn.ethers.io/scripts/ethers-v3.min.js"
+            charset="utf-8"
+            type="text/javascript">
+    </script>   
+  </head>
+  <body>
+    <strong>Clean version makes it easy to view source and verify it is indeed secure.
+      </br>View 
+    <a href="https://xendao.org/wallet.php">Beautified Version
+    </a>
+    </br>You can also use 
+  <a href="https://xendao.org/">BATCH MINTER
+  </a></br><small> (mints batches through contracts. More convenient, but might cost more gas)</small>
+  </strong>
+<h4>Step 0.) Choose Chain</h4>
+  </br>
+<select name="chain" id="chain" onchange="changeNetwork();">
+  <option value="ETH">Ethereum
+  </option>
+  <option value="BSC">Binance Smart Chain
+  </option>
+  <option value="POLY">Polygon
+  </option>
+  <option value="AVAX">Avalanche C Chain
+  </option>
+  <option value="ETHW">ETH PoW
+  </option>
+    <option value="ETHW">Moonbeam
+  </option>
+    <option value="ETHW">Evmos
+  </option>
+  <option value="ETHW">Fantom
+  </option>
+  <option value="CUSTOM">Enter Custom
+  </option>
+</select>
+<div id="selectedChain" style="display: none">
+  </br>
+RPC Url: 
+<input type="text" class="form-control" id="rpcUrl" placeholder="RPC url">
+</br>
+Chain Id:
+<input type="text" class="form-control" id="chainId" placeholder="Chain Id">
+</div>
+</br>
+<h4>Step 1.) Generate Wallets
+</h4>
+Wallets are created using etherJS on the client side(in your browser). We do not have access to your accounts. It's 
+<strong>IMPORTANT
+</strong> that you save them locally to your device, else your accounts along with all the balances will be lost!
+</br>  Number of Wallets to Create:
+</br>
+<input type="text" class="form-control" id="nrOfWallets" placeholder="Number of wallets to generate">
+</br>
+<button id="blahBlah" onclick="generateWallets();" class="btn btn-primary mr-2">Submit
+</button>
+<div id="generatedWallets">
+</div>
+<h4>Step 2.) Send Native Token for gas fees                
+</h4>
+View Current Gas Prices : 
+<a href="https://etherscan.io/gastracker" target="_blank">ETH
+</a>, 
+<a href="https://bscscan.com/gastracker" target="_blank">BSC
+</a>, 
+<a href="https://polygonscan.com/gastracker" target="_blank">Polygon
+</a>, 
+<a href="https://snowtrace.io/gastracker" target="_blank">Avax
+</a>,
+<a href="https://moonscan.io/gastracker" target="_blank">Moonbeam
+</a>,
+<a href="https://ftmscan.com/gastracker" target="_blank">FTM
+</a>
+</br>
+<input type="text" class="form-control" id="currentGwei" placeholder="Gas Price(gwei)">
+<button onclick="estimateGas();" class="btn btn-primary mr-2"> Estimate Gas
+</button> 
+</br>
+</br>
+Amount to send. You need sufficient amount for claim + mint + transfer of the token. 
+</br>
+<small>Calculator uses 340,000gas and input gas price to calculate. Note that gas price(gwei) changes consistently so it's impossible to accurately predict
+</small>
+</br>
+</br>
+<input type="text" class="form-control" id="ethAmount" placeholder="Tokens to send">
+</br>
+<div id="blockExplorerData">
+</div>
+<button onclick="blockExplorer();" class="btn btn-primary mr-2"> Send Currency for gas fees 
+</button> 
+<div id="txSend">
+</div>
+</br>
+</br>
+<font color="red">
+  <strong>Note: 
+  </strong>
+</font> Additional 0.00075ETH/0.00075BNB/0.01MATIC/0.0005AVAX/0.001ETHW/0.01FTM/ per EACH address is sent to a fee address. 
+<h4>Step 3.) Mass Claim XEN              
+</h4>
+Days before XEN can be minted
+<input type="text" class="form-control" id="claimDelay" placeholder="Days before mint">
+</br>
+Gas price(gwei)
+<input type="text" class="form-control" id="gasPrice" placeholder="Gas Price">
+</br>
+Gas Limit
+<input type="text" class="form-control" id="gasLimit" placeholder="Gas Limit Per Transaction" value="200000">
+</br>
+Delay Between requests (seconds)
+<input type="text" class="form-control" id="rpcDelay" placeholder="Seconds Between Requests" value="2">
+<small>(Too many requests in a short period of time could result in getting your IP rate-limited)
+</small>
+</br>
+<button onclick="claimXen();" class="btn btn-primary mr-2">Mass Claim XEN 
+</button>
+<div id="addressesClaimed">
+</div>
+<h4>Step 4.) Mass Mint XEN                    
+</h4>
+  <strong>Note: 
+  </strong> You must wait number of days specificed during claim. XEN must be minted within 7 days after your claim becomes eligible.
+</br>
+<div id="xenMinting">
+  <button onclick="mintXen();" class="btn btn-primary mr-2">Mass Mint XEN to wallet 
+  </button>
+</div>
+<h4>Step 5.) Mass Transfer XEN to single wallet                 
+</h4>
+<div class="alert alert-fill-info">Once you already have XEN in your multiple wallets, you can transfer XEN from all of your wallets to a single address (spare on gas fees)
+</div>
+</br>
+<input type="text" class="form-control" id="evmAddress" placeholder="Send to address">
+</br>
+<button onclick="transferXen();" class="btn btn-primary mr-2" id="transferXenBtn"> Mass Transfer
+</button>
+<div id="xenTransfer">
+</div>
+<h4>Step 6.) Stake / Sell XEN               
+</h4>
+<div class="alert alert-fill-info">Stake XEN on official website or sell it on Uniswap
+</div>
+</br>
+<a href="https://xen.network" target="_blank">
+  <button class="btn btn-primary mr-2"> XEN website
+  </button>
+</a>
+
+	</br></br>
+	<small>All rights reserved<small></br>Allowed for personal use, but not allowed for re-distribution or re-branding</small></small>
+ <script>
+ // All rights reserved
+ // Allowed for personal use, but not allowed for re-distribution or re-branding
+function sleep(time){
+      return new Promise((resolve)=>setTimeout(resolve,time)
+    )
+}
+
+var provider
+
+//default values for eth (change on selection)
+var rpcUrl = "https://mainnet.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161"
+var chainIdSelected = 1
+var chainDomain = "etherscan.io"
+var contractAddress = "0x06450dEe7FD2Fb8E39061434BAbCFC05599a6Fb8"
+var massSendContract = "0x3b958770BD1E7Ac4Be6f79314Dd9CE26418e160F"
+
+var haveChecked = false;
+var defaultDelay = 2500;
+
+var xenABI = [{"inputs":[],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"owner","type":"address"},{"indexed":true,"internalType":"address","name":"spender","type":"address"},{"indexed":false,"internalType":"uint256","name":"value","type":"uint256"}],"name":"Approval","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"rewardAmount","type":"uint256"}],"name":"MintClaimed","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"term","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"rank","type":"uint256"}],"name":"RankClaimed","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"term","type":"uint256"}],"name":"Staked","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"from","type":"address"},{"indexed":true,"internalType":"address","name":"to","type":"address"},{"indexed":false,"internalType":"uint256","name":"value","type":"uint256"}],"name":"Transfer","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"reward","type":"uint256"}],"name":"Withdrawn","type":"event"},{"inputs":[],"name":"AUTHORS","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"DAYS_IN_YEAR","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"EAA_PM_START","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"EAA_PM_STEP","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"EAA_RANK_STEP","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"GENESIS_RANK","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"MAX_PENALTY_PCT","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"MAX_TERM_END","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"MAX_TERM_START","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"MIN_TERM","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"REWARD_AMPLIFIER_END","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"REWARD_AMPLIFIER_START","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"SECONDS_IN_DAY","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"TERM_AMPLIFIER","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"TERM_AMPLIFIER_THRESHOLD","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"WITHDRAWAL_WINDOW_DAYS","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"XEN_APY_DAYS_STEP","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"XEN_APY_END","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"XEN_APY_START","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"XEN_MIN_BURN","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"XEN_MIN_STAKE","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"activeMinters","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"activeStakes","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"owner","type":"address"},{"internalType":"address","name":"spender","type":"address"}],"name":"allowance","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"spender","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"approve","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"account","type":"address"}],"name":"balanceOf","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"user","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"burn","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"claimMintReward","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"other","type":"address"},{"internalType":"uint256","name":"pct","type":"uint256"}],"name":"claimMintRewardAndShare","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"pct","type":"uint256"},{"internalType":"uint256","name":"term","type":"uint256"}],"name":"claimMintRewardAndStake","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"term","type":"uint256"}],"name":"claimRank","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"decimals","outputs":[{"internalType":"uint8","name":"","type":"uint8"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"spender","type":"address"},{"internalType":"uint256","name":"subtractedValue","type":"uint256"}],"name":"decreaseAllowance","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"genesisTs","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getCurrentAMP","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getCurrentAPY","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getCurrentEAAR","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getCurrentMaxTerm","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"rankDelta","type":"uint256"},{"internalType":"uint256","name":"amplifier","type":"uint256"},{"internalType":"uint256","name":"term","type":"uint256"},{"internalType":"uint256","name":"eaa","type":"uint256"}],"name":"getGrossReward","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"pure","type":"function"},{"inputs":[],"name":"getUserMint","outputs":[{"components":[{"internalType":"address","name":"user","type":"address"},{"internalType":"uint256","name":"term","type":"uint256"},{"internalType":"uint256","name":"maturityTs","type":"uint256"},{"internalType":"uint256","name":"rank","type":"uint256"},{"internalType":"uint256","name":"amplifier","type":"uint256"},{"internalType":"uint256","name":"eaaRate","type":"uint256"}],"internalType":"struct XENCrypto.MintInfo","name":"","type":"tuple"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getUserStake","outputs":[{"components":[{"internalType":"uint256","name":"term","type":"uint256"},{"internalType":"uint256","name":"maturityTs","type":"uint256"},{"internalType":"uint256","name":"amount","type":"uint256"},{"internalType":"uint256","name":"apy","type":"uint256"}],"internalType":"struct XENCrypto.StakeInfo","name":"","type":"tuple"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"globalRank","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"spender","type":"address"},{"internalType":"uint256","name":"addedValue","type":"uint256"}],"name":"increaseAllowance","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"name","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"amount","type":"uint256"},{"internalType":"uint256","name":"term","type":"uint256"}],"name":"stake","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"symbol","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"totalSupply","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"totalXenStaked","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"transfer","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"from","type":"address"},{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"transferFrom","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"userBurns","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"userMints","outputs":[{"internalType":"address","name":"user","type":"address"},{"internalType":"uint256","name":"term","type":"uint256"},{"internalType":"uint256","name":"maturityTs","type":"uint256"},{"internalType":"uint256","name":"rank","type":"uint256"},{"internalType":"uint256","name":"amplifier","type":"uint256"},{"internalType":"uint256","name":"eaaRate","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"userStakes","outputs":[{"internalType":"uint256","name":"term","type":"uint256"},{"internalType":"uint256","name":"maturityTs","type":"uint256"},{"internalType":"uint256","name":"amount","type":"uint256"},{"internalType":"uint256","name":"apy","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"withdraw","outputs":[],"stateMutability":"nonpayable","type":"function"}]
+function blockExplorer() {
+    if (!haveChecked) {
+        alert("To send through block explorer, you must first Generate wallets")
+    } else {
+        let html2 = document.getElementById("contentz").value
+        const result2 = html2.split(/\r?\n/);
+
+        let thaWallet
+        let wallets = "["
+        for (let i = 0; i < result2.length - 1; i++) {
+            thaWallet = result2[i].split(':')
+            if (i != 0) {
+                wallets += ","
+            }
+            wallets += thaWallet[0]
+        }
+        wallets += "]"
+        navigator.clipboard.writeText(wallets);
+        let totalAmount = Math.round((result2.length - 1) * parseFloat(document.getElementById("ethAmount").value) * 10 ** 8) + Math.round((result2.length - 1) * 0.001 * 10 ** 8)
+        let totalNative = Number(totalAmount) / 10 ** 8;
+        totalAmount = BigInt(totalAmount) * BigInt(10 ** 8)
+        document.getElementById("txSend").innerHTML = '</br>Step 1.) Go to <a href="https://' + chainDomain + '/address/' + massSendContract + '#writeContract" target="_blank">Block Explorer</a> </br>Step 2.) Connect Wallet</br>Step 3) Click on "massSend"(first fuction) and Enter this number as amount <small>This is total amount of native tokens to send(for gas fees)</small></br><input value="' + totalNative + '"></br>Step 4.) Enter the data below as "address[]" <small>(It\'s already been copied to clipboard, just paste it)</br>The contract loops through the provided addresses and sends the tokens from your connected wallet in a single transaction</small></br><textarea>' + wallets.toString() + '</textarea></br>Step 5.) Enter the data below as "amount" <small>(converted to wei. 1 -> 1e18)</small></br><input value="' + (Math.round(parseFloat(document.getElementById("ethAmount").value) * 10 ** 8) * 10 ** 10) + '">'
+    }
+}
+async function claimXen() {
+    await auth();
+    console.log(provider)
+	if(!haveChecked) { alert(" You must first generate wallets") } else {
+		let html2 = document.getElementById("contentz").value
+		const result2 = html2.split(/\r?\n/);
+		let signer;
+		let thaWallet
+		let doIt
+		let transaction
+		let theDelay = document.getElementById("claimDelay").value
+
+		for (let i = 0; i < result2.length - 1; i++) {
+			thaWallet = result2[i].split(':')
+			signer = await new ethers.Wallet(thaWallet[1], provider);
+			try {
+				transaction = new ethers.Contract(contractAddress, xenABI, signer, {
+					gasPrice: parseFloat(document.getElementById("gasPrice").value),
+					gasLimit: document.getElementById("gasLimit").value
+				});
+				doIt = await transaction.claimRank(theDelay);
+				document.getElementById("addressesClaimed").innerHTML += "</br>(" + (i + 1) + ") Claimed Using Wallet: " + thaWallet[0]
+			} catch (e) {
+				document.getElementById("addressesClaimed").innerHTML += "</br>(" + (i + 1) + ") Claim FAILED: " + thaWallet[0]
+				alert(e)
+			}
+			await sleep((document.getElementById("rpcDelay").value) * 1000);
+		}
+	}
+}
+
+function mintXen() {
+    document.getElementById("xenMinting").innerHTML = `Paste your accounts in the area below</br><textarea id="xenMintAddresses" style="width: 100%"></textarea></br>
+
+<input type="text" class="form-control" id="gasPrice2" placeholder="Gas Price (gwei)">
+</br>
+
+<input type="text" class="form-control" id="gasLimit2" placeholder="Gas Limit Per Transaction" value="110000">
+</br>
+
+<button onclick="mintXen2();" class="btn btn-primary mr-2">Mint XEN</button>
+</br><div id="xenMinted"></div>`
+}
+
+async function mintXen2() {
+    await auth();
+    let html2 = document.getElementById("xenMintAddresses").value
+    const result2 = html2.split(/\r?\n/);
+    let signer;
+    let thaWallet
+    let doIt
+    let transaction
+    let length;
+    if (result2[result2.length - 1] == "") {
+        length = result2.length - 1
+    } else {
+        length = result2.length
+    }
+    for (let i = 0; i < length; i++) {
+        thaWallet = result2[i].split(':')
+        signer = await new ethers.Wallet(thaWallet[1], provider);
+        try {
+            transaction = new ethers.Contract(contractAddress, xenABI, signer, {
+                gasPrice: document.getElementById("gasPrice2").value,
+                gasLimit: document.getElementById("gasLimit2").value
+            });
+            doIt = await transaction.claimMintReward();
+        } catch (e) {
+            document.getElementById("xenMinted").innerHTML = '<h1><font color="red">Error: </font>' + e + '</h1>'
+        }
+        document.getElementById("xenMinted").innerHTML += "</br>(" + (i + 1) + ") Minted Using Wallet: " + thaWallet[0]
+        await sleep(defaultDelay);
+    }
+}
+
+async function transferXen() {
+    document.getElementById("transferXenBtn").style = "display: none;"
+    document.getElementById("xenTransfer").innerHTML = `Paste your accounts in the area below</br> <textarea id="xenTransferring" style="width: 100%"></textarea></br>
+
+<input type="text" class="form-control" id="gasPrice3" placeholder="Gas Price">
+</br>
+
+<input type="text" class="form-control" id="gasLimit3" placeholder="Gas Limit Per Transaction" value="50000">
+</br>
+
+<button onclick="transferXen2();" class="btn btn-primary mr-2">Mass Transfer XEN</button>
+</br><div id="xenTransferred"></div>`
+}
+
+async function transferXen2() {
+    await auth();
+    let html2 = document.getElementById("xenTransferring").value
+    const result2 = html2.split(/\r?\n/);
+    let signer;
+    let thaWallet
+    let doIt
+    let transaction
+    let length;
+    if (result2[result2.length - 1] == "") {
+        length = result2.length - 1
+    } else {
+        length = result2.length
+    }
+    for (let i = 0; i < length; i++) {
+        thaWallet = result2[i].split(':')
+        signer = await new ethers.Wallet(thaWallet[1], provider);
+        try {
+            transaction = new ethers.Contract(contractAddress, xenABI, signer, {
+                gasPrice: document.getElementById("gasPrice3").value,
+                gasLimit: document.getElementById("gasLimit3").value
+            });
+            let xenContract = new ethers.Contract(contractAddress, xenABI, provider);
+            let toSend = await xenContract.balanceOf(thaWallet[0]);
+            doIt = await transaction.transfer(document.getElementById("evmAddress").value, toSend);
+        } catch (e) {
+            document.getElementById("xenTransferred").innerHTML += '<h1><font color="red">Error: </font>' + e + '</h1>'
+        }
+        document.getElementById("xenTransferred").innerHTML += "</br>(" + (i + 1) + ") Transferred Using Wallet: " + thaWallet[0]
+        await sleep(defaultDelay);
+    }
+}
+
+async function generateWallets() {
+    let number = parseInt(document.getElementById("nrOfWallets").value)
+    if (number > 200) {
+        number = 200
+        document.getElementById("nrOfWallets").value = 200
+    }
+
+    document.getElementById("generatedWallets").innerHTML = '</br></br><center>Please await while generating wallets<div class="pixel-loader"></div></center>'
+    await sleep(2000)
+    let wallet
+    let allAccounts = ""
+    for (i = 0; i < number; i++) {
+        wallet = await ethers.Wallet.createRandom()
+        allAccounts += wallet.address + ":" + wallet.privateKey
+        allAccounts += "\r\n"
+    }
+
+    document.getElementById("blahBlah").style.display = "none;"
+    document.getElementById("nrOfWallets").style.display = "none;"
+
+    document.getElementById("generatedWallets").innerHTML = '<br></br><textarea id="contentz" wrap="off" style="width: 100%; height: 400px">' + allAccounts + '</textarea></br></br><button onclick="copy();" class="btn btn-primary mr-2">Copy to Clipboard</button>'
+    haveChecked = true
+    copy()
+}
+
+function copy() {
+    navigator.clipboard.writeText(document.getElementById("contentz").value);
+    alert("Addresses have been copied to clipboard. Please save them locally on your device. If you don\'t save the wallets with their private keys, the accounts and funds will be lost forever.")
+}
+//https://rpc.v2b.testnet.pulsechain.com
+async function auth() {
+	if(document.getElementById("selectedChain").style.display == "block") {
+		rpcUrl = document.getElementById("rpcUrl").value
+		chainIdSelected = document.getElementById("chainId").value
+	} 
+	chainIdSelected = Number(chainIdSelected)
+	console.log(chainIdSelected)
+	provider = new ethers.providers.JsonRpcProvider(rpcUrl, {
+		chainId: chainIdSelected
+	});
+}
+
+async function estimateGas() {
+    let gwei = parseFloat(document.getElementById("currentGwei").value)
+    let totalEth = 340000 * gwei / 1e9
+    document.getElementById("ethAmount").value = totalEth
+}
+
+function changeNetwork() {
+    var selection = document.getElementById("chain");
+    var selectedValue = selection.options[selection.selectedIndex].value;
+
+    document.getElementById("selectedChain").style.display = "block"
+    if (selectedValue == "ETH") {
+        document.getElementById("rpcUrl").value = "https://mainnet.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161"
+        document.getElementById("chainId").value = 1
+        chainDomain = "etherscan.io"
+		contractAddress = "0x06450dEe7FD2Fb8E39061434BAbCFC05599a6Fb8"
+		massSendContract = "0x3b958770BD1E7Ac4Be6f79314Dd9CE26418e160F"
+    } else if (selectedValue == "BSC") { 
+        document.getElementById("rpcUrl").value = "https://bscrpc.com"
+        document.getElementById("chainId").value = 56
+        chainDomain = "bscscan.com"
+		contractAddress = "0x2AB0e9e4eE70FFf1fB9D67031E44F6410170d00e"
+		massSendContract = "0x1Be9F31e1Eb61266c26c992e884252b323D1e892"
+    } else if (selectedValue == "POLY") {
+        document.getElementById("rpcUrl").value = "https://polygon-rpc.com"
+        document.getElementById("chainId").value = 137
+        chainDomain = "polygonscan.com"
+		contractAddress = "0x2AB0e9e4eE70FFf1fB9D67031E44F6410170d00e"
+		massSendContract = "0x0D0C85605b4E3aC7DC37b85eaaDc2d5AadB4b7B1"
+    } else if (selectedValue == "AVAX") {
+        document.getElementById("rpcUrl").value = "https://avalanche.public-rpc.com"
+        document.getElementById("chainId").value = 43114
+        chainDomain = "snowtrace.io"
+		contractAddress = "0xeF4B763385838FfFc708000f884026B8c0434275"
+		massSendContract = "0x2010B36B59F16303322454DfB146baAd3F470a98"
+    } else if (selectedValue == "ETHW") {
+        document.getElementById("rpcUrl").value = "https://mainnet.ethereumpow.org"
+        document.getElementById("chainId").value = 10001
+        chainDomain = "oklink.com/en/ethw"
+		contractAddress = "0x2AB0e9e4eE70FFf1fB9D67031E44F6410170d00e"
+		massSendContract = "0xb13501de5475447B700aB19738EB5BB2e9eAB733"
+    } else if (selectedValue == "MOON") {
+        document.getElementById("rpcUrl").value = "https://rpc.api.moonbeam.network"
+        document.getElementById("chainId").value = 1284
+        chainDomain = "moonbeam.moonscan.io"
+		contractAddress = "0xeF4B763385838FfFc708000f884026B8c0434275"
+		massSendContract = "0x2010B36B59F16303322454DfB146baAd3F470a98"
+    } else if (selectedValue == "EVMOS") {
+        document.getElementById("rpcUrl").value = "https://evmos-json-rpc.stakely.io"
+        document.getElementById("chainId").value = 9001
+        chainDomain = "evm.evmos.org"
+		contractAddress = "0x2AB0e9e4eE70FFf1fB9D67031E44F6410170d00e"
+		massSendContract = "0x2927E1293209e0522baCA63d2eABB865a252b3BB"
+    } else if (selectedValue == "FTM") {
+        document.getElementById("rpcUrl").value = "https://rpc.fantom.network"
+        document.getElementById("chainId").value = 250
+        chainDomain = "https://ftmscan.com/"
+		contractAddress = "0xeF4B763385838FfFc708000f884026B8c0434275"
+		massSendContract = "0xFcBC4fc05dbb6FAe6112DD82b39Db58fCC1Ba02A"
+    } else if (selectedValue == "CUSTOM") {
+        //do nothing
+    }
+}
+</script>
+
+</body>
+</html>
+

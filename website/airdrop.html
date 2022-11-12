@@ -1,0 +1,349 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Xen DAO: XD airdrop for all XEN holders</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="vendors/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="vendors/css/vendor.bundle.base.css">
+    <!-- endinject -->
+    <!-- Plugin css for this page -->
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <!-- endinject -->
+    <!-- Layout styles -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- End layout styles -->
+    <link rel="shortcut icon" href="images/favicon.ico" />
+	
+	 <script src="js/ethers.js"></script>
+	 <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+   <script type="text/javascript" src="https://unpkg.com/web3@1.6.0/dist/web3.min.js"></script>
+<script type="text/javascript" src="https://unpkg.com/web3modal@1.9.4/dist/index.js"></script>
+<script type="text/javascript" src="https://unpkg.com/@walletconnect/web3-provider@1.6.6/dist/umd/index.min.js"></script>
+<script type="text/javascript" src="js/walletlink.bundle.js"></script>
+ <script src="https://js.hcaptcha.com/1/api.js" async defer></script>
+ <script src="js/network.js"></script>
+<script>
+var provider = new ethers.providers.Web3Provider(window.ethereum, "any");</script>
+  </head>
+  <body>
+    <div class="container-scroller">
+
+      <!-- partial:partials/_navbar.html -->
+      <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+        <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
+            <a class="navbar-brand brand-logo" href="index.html"><strong>Xen DAO</strong> &nbsp&nbsp<img src="images/XD.png" alt="logo" style="max-height: 100%; width: auto;"/></a>
+          <a class="navbar-brand brand-logo-mini" href="index.html"><img src="images/XD.png" alt="logo" style="max-height: 100%; width: auto;"/></a>
+        </div>
+        <div class="navbar-menu-wrapper d-flex align-items-stretch">
+          <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
+            <span class="mdi mdi-menu"></span>
+          </button>
+
+          <ul class="navbar-nav navbar-nav-right">
+            <li class="nav-item nav-profile dropdown">
+              <a class="nav-link dropdown-toggle" id="profileDropdown" href="#" data-bs-toggle="dropdown" aria-expanded="false">
+                <div class="nav-profile-img">
+                  <i class="mdi mdi-access-point-network"></i>
+                  <span class="availability-status online"></span>
+                </div>
+                <div class="nav-profile-text">
+                  <p class="mb-1 text-black">Supported Networks</p>
+                </div>
+              </a>
+              <div class="dropdown-menu navbar-dropdown" aria-labelledby="profileDropdown">
+                <a class="dropdown-item" href="#">
+                  <i class="mdi mdi-server-network "></i> Ethereum</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">
+                  <i class="mdi mdi-server-network "></i> BSC </a>
+				              <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">
+                  <i class="mdi mdi-server-network "></i> Polygon </a>
+				  
+				     <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">
+                  <i class="mdi mdi-server-network "></i> Avalanche C Chain </a>
+				  
+				     <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">
+                  <i class="mdi mdi-server-network "></i> ETH POW </a>
+				  
+				     <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">
+                  <i class="mdi mdi-server-network "></i> Moonbeam </a>
+				  
+				     <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">
+                  <i class="mdi mdi-server-network "></i> Evmos </a>
+          
+			  
+			       <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">
+                  <i class="mdi mdi-server-network "></i> Fantom </a>
+				  		         <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">
+                  <i class="mdi mdi-server-network "></i> DogeChain </a>
+              </div>
+            </li>
+    
+    
+            
+           
+            
+          </ul>
+          <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
+            <span class="mdi mdi-menu"></span>
+          </button>
+        </div>
+      </nav>
+      <!-- partial -->
+      <div class="container-fluid page-body-wrapper">
+        <!-- partial:partials/_sidebar.html -->
+        <nav class="sidebar sidebar-offcanvas" id="sidebar">
+          <ul class="nav">
+            <li class="nav-item nav-profile">
+              <a href="#" class="nav-link">
+                <div class="nav-profile-image">
+                  <img src="images/xen.png" alt="profile">
+                  <span class="login-status online"></span>
+                  <!--change to offline or busy as needed-->
+                </div>
+                <div class="nav-profile-text d-flex flex-column">
+                  <span class="font-weight-bold mb-2">Xen DAO</span>
+                  <span class="text-secondary text-small"><small>Claim Xen, mint XD</small> </span>
+                </div>
+                <i class="mdi mdi-bookmark-check text-success nav-profile-badge"></i>
+              </a>
+            </li>
+   <li class="nav-item">
+              <a class="nav-link" href="airdrop.html">
+                <span class="menu-title">Free Airdrop(XD)</span>
+                <i class="mdi mdi-gift  menu-icon"></i>
+              </a>
+            </li>
+                    <li class="nav-item">
+              <a class="nav-link" href="index.html">
+                <span class="menu-title">Batch Minter</span>
+                <i class="mdi mdi-home menu-icon"></i>
+              </a>
+            </li>
+            	   <li class="nav-item">
+              <a class="nav-link" href="wallet.html">
+                <span class="menu-title">Wallet Minter</span>
+                <i class="mdi mdi-account-multiple-plus  menu-icon"></i>
+              </a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link" href="staking.html">
+                <span class="menu-title">Stake & Earn</span>
+                <i class=" mdi mdi-star-circle menu-icon"></i>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="referral.html">
+                <span class="menu-title">Referr & Earn</span>
+                <i class="mdi mdi-square-inc-cash menu-icon"></i>
+              </a>
+            </li>
+			
+                       <li class="nav-item">
+              <a class="nav-link" href="index.html#TOKENOMICS">
+                <span class="menu-title">Tokenomics</span>
+                <i class="mdi mdi-chart-bar menu-icon"></i>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="index.html#DAOFAQ">
+                <span class="menu-title">FAQ</span>
+                <i class="mdi mdi-table-large menu-icon"></i>
+              </a>
+            </li>
+			
+						 <li class="nav-item">
+              <a class="nav-link" href="https://snapshot.org/#/xen-dao.eth" target="_blank">
+                <span class="menu-title">Governance</span>
+                <i class="mdi mdi-school menu-icon"></i>
+              </a>
+            </li>
+
+            <li class="nav-item sidebar-actions">
+              <span class="nav-link">
+                <div class="border-bottom">
+                  <h6 class="font-weight-normal mb-3">Add To Wallet</h6>
+                </div>
+                <button class="btn btn-block btn-lg btn-gradient-primary mt-4" onclick="addToWallet();">+ Add XEN DAO</button>
+                <div class="mt-4">
+                  <div class="border-bottom">
+                    <p class="text-secondary">Social Media</p>
+                  </div>
+              
+                    <a href="https://t.me/Xen_DAO" target="_blank"><img src="images/telegram.svg" style="max-width: 100%; max-height: 25px"></a> Telegram
+                        <a href="https://twitter.com/xen_dao" target="_blank"><img src="images/twitter.svg"></a>
+          
+                </div>
+              </span>
+            </li>
+          </ul>
+        </nav>
+        <!-- partial -->
+        <div class="main-panel">
+          <div class="content-wrapper">
+<!--
+            <div class="row">
+              <div class="col-md-4 stretch-card grid-margin">
+                <div class="card bg-gradient-danger card-img-holder text-white">
+                  <div class="card-body">
+                    <img src="images/dashboard/circle.svg" class="card-img-absolute" alt="circle-image" />
+                    <h4 class="font-weight-normal mb-3">Wallets Claimed <i class="mdi mdi-chart-line mdi-24px float-right"></i>
+                    </h4>
+                    <h2 class="mb-5">$ 15,0000</h2>
+                    <h6 class="card-text">Increased by 60%</h6>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4 stretch-card grid-margin">
+                <div class="card bg-gradient-info card-img-holder text-white">
+                  <div class="card-body">
+                    <img src="images/dashboard/circle.svg" class="card-img-absolute" alt="circle-image" />
+                    <h4 class="font-weight-normal mb-3">Xen Dao Supply <i class="mdi mdi-bookmark-outline mdi-24px float-right"></i>
+                    </h4>
+                    <h2 class="mb-5">45,6334</h2>
+                    <h6 class="card-text">Decreased by 10%</h6>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4 stretch-card grid-margin">
+                <div class="card bg-gradient-success card-img-holder text-white">
+                  <div class="card-body">
+                    <img src="images/dashboard/circle.svg" class="card-img-absolute" alt="circle-image" />
+                    <h4 class="font-weight-normal mb-3">Fees Accumulated <i class="mdi mdi-diamond mdi-24px float-right"></i>
+                    </h4>
+                    <h2 class="mb-5">95,5741</h2>
+                    <h6 class="card-text">Increased by 5%</h6>
+                  </div>
+                </div>
+              </div>
+            </div>
+            -->
+			
+			
+			
+			
+			
+			
+ 
+            <div class="row">
+			
+			      
+		
+              <div class="col-md-9 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">XEN holders can claim free Xen DAO(XD) token</h4>
+                
+			<div class="alert alert-danger"><strong>Notice: </strong> NEVER give ALLOWANCE on a random site, or your tokens will be stolen. To claim XD, you do not need to give any allowances(we can not access your tokens).</div>
+			<div class="alert alert-warning">You can also claim manually through block explorer. Click claim manually to generate amount and proofs.</div>
+	
+<div class="alert alert-success"> Airdrop is available on: <strong>Ethereum</strong>,<strong>BSC</strong>,<strong>Polygon</strong> and <strong>Fantom</strong></br></br>
+You will receive <strong>10 Xen DAO(XD)</strong> tokens for each <strong>XEN</strong> token owned on 11/7</div>
+
+             	  
+                      <button onclick="checkAirdrop();" class="btn btn-gradient-primary mr-2">Check My Balance & Claim</button>
+         </br></br>
+
+<button onclick="claimManually();" class="btn btn-gradient-primary mr-2">Claim manually</button>
+                 
+                  </div>
+                </div>
+              </div>
+              
+             
+       
+		
+			<div class="col-md-12 grid-margin stretch-card">
+                    <div class="card">
+                      <div class="card-body">
+                        <h4 class="card-title">How does it work?</h4>
+                     
+                        <p> Everyone who held XEN in their wallets on 7/11 can claim 10 Xen DAO(XD) tokens for each XEN owned</br>
+
+						
+						
+</br>
+			  <h4 class="card-title">What is Xen DAO(XD)</h4>
+                     
+                        <p>Xen DAO offers two tools that allow you to mass mint XEN. Protocol collects fees on each claim and distributes them to XD stakers.</br>
+						</p>
+						
+						</br>
+			  <h4 class="card-title">Is this safe?</h4>
+                     
+                        <p>You can view the contracts and verify it indeed is a very simple smart contract (merkle tree airdrop distribution).</br>
+			
+				<a href="https://github.com/macNcheeseFinance/XenDAO/blob/main/airdrop/XDairdrop.sol" target="_blank">	Github</a>, <a href="https://etherscan.io/address/0xdf8d752944d538beda9095d4723ab7c86e96c67a#code" target="_blank">Etherscan</a>, <a href="https://bscscan.com/address/0x783A5f74D26787e9D219ebeBF59A2DAfEd918ace#code" target="_blank">BSCscan, <a href="https://polygonscan.com/address/0x5d66d82fE1Fc6bfB8f83AFD01C3576FF8D5CcedF#code" target="_blank">Polygonscan</a>, <a href="https://ftmscan.com/address/0x0a095b703BcF81abd30b61ba14784C37DC4300DE#code" target="_blank">FTMscan</a></br>
+ </p>
+                      </div>
+                    </div>
+                  </div>
+				  
+				  
+              
+              
+            </div>
+          </div>
+          <!-- content-wrapper ends -->
+          <!-- partial:partials/_footer.html -->
+          <footer class="footer">
+            <div class="container-fluid d-flex justify-content-between">
+              <span class="text-muted d-block text-center text-sm-start d-sm-inline-block">Copyright © XD.org 2022</span>
+              
+            </div>
+          </footer>
+          <!-- partial -->
+        </div>
+        <!-- main-panel ends -->
+      </div>
+      <!-- page-body-wrapper ends -->
+    </div>
+    <!-- container-scroller -->
+    <!-- plugins:js -->
+    <script src="vendors/js/vendor.bundle.base.js"></script>
+    <!-- endinject -->
+    <!-- Plugin js for this page -->
+    <script src="vendors/chart.js/Chart.min.js"></script>
+    <script src="js/jquery.cookie.js" type="text/javascript"></script>
+    <!-- End plugin js for this page -->
+    <!-- inject:js -->
+    <script src="js/off-canvas.js"></script>
+    <script src="js/hoverable-collapse.js"></script>
+    <script src="js/misc.js"></script>
+    <!-- endinject -->
+    <!-- Custom js for this page -->
+    <script src="js/dashboard.js"></script>
+    <script src="js/todolist.js"></script>
+
+    <!-- End custom js for this page -->
+	    <script src="js/airdrop.js"></script>
+		<script>
+		
+		//Check if his network is eligible, then check if
+		
+		function copyContents() {
+    navigator.clipboard.writeText(document.getElementById("refLinkCreated").value);
+    Swal.fire({
+		icon: 'success',
+        title: 'Copied to clipboard',
+        html: 'Your Referral link has been copied to clipboard! Feel free to share with your friends and followers!',
+        focusConfirm: false,
+        confirmButtonText: '<i class="fa fa-thumbs-up"></i> Close'
+    })
+}
+</script>
+  </body>
+</html>
