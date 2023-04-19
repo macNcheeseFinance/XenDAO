@@ -47,7 +47,7 @@ BSC: https://bscscan.com/address/0x1Be9F31e1Eb61266c26c992e884252b323D1e892</br>
 Burn Contract: 0x5DE3BF0F4E0c4ffee275586b87a36BA9ea48BDb7</br>
 </br></br>
 Polygon: https://polygonscan.com/address/0x0D0C85605b4E3aC7DC37b85eaaDc2d5AadB4b7B1</br>
-Burn Contract: </br>
+Burn Contract: 0x4a793EC4084644Ab60e255B6FB01d481b1e655d8</br>
 </br></br>
 Avax C Chain: https://snowtrace.io/address/0x2010B36B59F16303322454DfB146baAd3F470a98</br>
 Burn Contract: 0xAd6cb81F57B28c5f25192416041FED7E2BDc94ba</br>
