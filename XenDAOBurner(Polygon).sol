@@ -103,11 +103,6 @@ contract XenDAOBurner {
         payoutAddress = _new;
     }
 
-    function changeMinter(address _new) external {
-        require(msg.sender == XVMC.governor(), "decentralized voting only");
-        XD.wchangeAddress(_new);
-    }
-
     function transferXD(address _to) external {
         require(msg.sender == XVMC.governor(), "decentralized voting only");
         XD.transfer(_to, XD.balanceOf(address(this)));
