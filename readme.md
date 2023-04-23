@@ -41,36 +41,36 @@ Smart contract is more convenient, but costs more gas. Wallet minter is cheaper,
  
   Contract Addresses:</br>
 Ethereum: https://etherscan.io/address/0x3b958770BD1E7Ac4Be6f79314Dd9CE26418e160F</br>
-Burn Contract: 0x9d618F193167B9c572519620e81CC3E2bA2d232A</br>
+Burn Contract: 0x59c2f22c7321F0FfdF19F4Bcbbd94653918aE2FB</br>
 </br></br>
 BSC: https://bscscan.com/address/0x1Be9F31e1Eb61266c26c992e884252b323D1e892</br>
-Burn Contract: 0x5DE3BF0F4E0c4ffee275586b87a36BA9ea48BDb7</br>
+Burn Contract: 0x4b450Bd6D84EBE78750e29BBF6e27e7C45ee4EC5</br>
 </br></br>
 Polygon: https://polygonscan.com/address/0x0D0C85605b4E3aC7DC37b85eaaDc2d5AadB4b7B1</br>
-Burn Contract: 0x5687277Cf3C0471b689E9f35a39DE9D07B860A8A</br>
+Burn Contract: 0x438588D94a7b54E3d6e86a2009144C1c53cA8C08</br>
 </br></br>
 Avax C Chain: https://snowtrace.io/address/0x2010B36B59F16303322454DfB146baAd3F470a98</br>
-Burn Contract: 0xAd6cb81F57B28c5f25192416041FED7E2BDc94ba</br>
+Burn Contract: 0x11AEbfdB7F13A3d90236343fEc16FF1C13e124f7</br>
 </br></br>
 ETHW: https://www.oklink.com/en/ethw/address/0xb13501de5475447B700aB19738EB5BB2e9eAB733</br>
-Burn Contract: 0x326fBfC0B8d6dfe685F00Dd733346219ac52aEBc</br>
+Burn Contract: 0x3995542d671c1dE706eB0E74dd30F72556CBbF66</br>
 </br></br>
 Moonbeam: https://moonbeam.moonscan.io/address/0x2010B36B59F16303322454DfB146baAd3F470a98</br>
-Burn Contract: 0x58CC792EFe0276fEb7FF21a5ef16f86e6768d4f4</br>
+Burn Contract: 0xB06E388ac7c4156Df3c6B68e0eB5fa5f93001088</br>
 </br></br>
 Evmos: https://evm.evmos.org/address/0x2927E1293209e0522baCA63d2eABB865a252b3BB/
 </br>
-Burn Contract: 0x2F5eb41Ca8F430410E92730a5555dc1508CD7D79</br>
+Burn Contract: 0x3347D43a1eef2eb93F3d1D69C0f94D33c0089177</br>
 </br></br>
 Fantom: https://ftmscan.com/address/0xFcBC4fc05dbb6FAe6112DD82b39Db58fCC1Ba02A/
 </br>
-Burn Contract: 0x11AEbfdB7F13A3d90236343fEc16FF1C13e124f7</br>
+Burn Contract: 0x24b0718bb3eA16A0AE95428291d7837dDD50909E</br>
 </br></br>
 DogeChain: 0xfcbc4fc05dbb6fae6112dd82b39db58fcc1ba02a</br>
-Burn Contract: 0x3347D43a1eef2eb93F3d1D69C0f94D33c0089177</br>
+Burn Contract: 0x3b958770bd1e7ac4be6f79314dd9ce26418e160f</br>
 </br></br>
 OKX Chain: 0xfcbc4fc05dbb6fae6112dd82b39db58fcc1ba02a</br>
-Burn Contract: 0x1Be9F31e1Eb61266c26c992e884252b323D1e892</br>
+Burn Contract: 0x4c093991Ff508EBbfDDEF98BB853A56233677D2a</br>
 </br></br>
 </br></br>
 <img src="https://i.imgur.com/CkIerqi.png"></br></br>
