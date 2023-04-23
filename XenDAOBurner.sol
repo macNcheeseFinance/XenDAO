@@ -13,6 +13,18 @@ interface IXD {
     function balanceOf(address account) external view returns (uint256);
 }
 
+interface IBurnRedeemable {
+    event Redeemed(
+        address indexed user,
+        address indexed xenContract,
+        address indexed tokenContract,
+        uint256 xenAmount,
+        uint256 tokenAmount
+    );
+
+    function onTokenBurned(address user, uint256 amount) external;
+}
+
 
 contract XenDAOBurner {
     IXEN public immutable XEN;
@@ -29,11 +41,17 @@ contract XenDAOBurner {
         protocolFee = _fee;
         lastRewardUpdate = block.timestamp + 3 days;
     }
+    
+    // Function to receive Ether. msg.data must be empty
+    receive() external payable {}
+
+    // Fallback function is called when msg.data is not empty
+    fallback() external payable {}
 
     function burnXEN(uint256 _batches) external payable {
         uint256 _fee = _batches * protocolFee;
         require(msg.value == _fee, "insufficient fee");
-        payable(address(XD)).transfer(_fee);
+        payFee(_fee);
 
         uint256 _burnAmount = _batches * burnPerBatch;
         require(XEN.balanceOf(msg.sender) >= _burnAmount, "XenDAOBurner: Insufficient XEN tokens for burn");
@@ -47,7 +65,7 @@ contract XenDAOBurner {
 
         uint256 _fee = _batches * protocolFee;
         require(msg.value == _fee, "insufficient fee");
-        payable(address(XD)).transfer(_fee);
+        payFee(_fee);
 
         uint256 _burnAmount = _batches * burnPerBatch;
         require(XEN.balanceOf(msg.sender) >= _burnAmount, "XenDAOBurner: Insufficient XEN tokens for burn");
@@ -69,5 +87,18 @@ contract XenDAOBurner {
         require(block.timestamp > lastRewardUpdate + 1 days, "XenDAOBurner: Must wait atleast 24hours");
         rewardPerBatch = rewardPerBatch * 99 / 100;
         lastRewardUpdate = block.timestamp;
+    }
+
+    /**
+        @dev confirms support for IBurnRedeemable interfaces
+    */
+    function supportsInterface(bytes4 interfaceId) public pure returns (bool) {
+        return
+            interfaceId == type(IBurnRedeemable).interfaceId;
+    }
+    
+    function payFee(uint256 amount) internal {
+        (bool sent, ) = payable(address(XD)).call{value: amount}("");
+        require(sent, "Failed to send Ether");
     }
 }
